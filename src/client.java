@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*; 
 class client { 
 
-    public static void main(String argv[]) throws Exception 
+    public static void main(String args[]) throws Exception 
     { 
     	
     	InetAddress ipAddress = InetAddress.getByName("localhost");

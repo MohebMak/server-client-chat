@@ -27,8 +27,13 @@ public class clientHandler extends Thread
     @Override
     public void run() 
     {
+    	
         String received;
         String toreturn;
+        
+        
+    
+        
         while (true) 
         {
             try {
