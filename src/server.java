@@ -50,12 +50,27 @@ class server {
             			{
      			k   =    k+"     "+s;
             			}
-            			outToClient.writeUTF(k);
+            			outToClient.writeUTF(k + "/n" + "please enter the name you want to chat with");
+            			
+             			 String othername = inFromClient.readUTF();
+
+             			 DataInputStream inFromClient1 = 
+              		              new DataInputStream(usersList.get(othername).getInputStream()); 
+
+              		           
+              		           DataOutputStream  outToClient1 = 
+              		                   new DataOutputStream(usersList.get(othername).getOutputStream()); 
+            			 Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient, usersList.get(othername) ,  inFromClient1 , outToClient1);
+   	                  clienthandler.start();
+
             		}
+            		
+            		
+          
+            		
 
-
-            		                  Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient);
-            		                  clienthandler.start();
+	                  
+        		   
             		
             		}
             catch (Exception e) {

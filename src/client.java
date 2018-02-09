@@ -21,8 +21,8 @@ class client {
     	{
         String sentence; 
 
-              System.out.println("From server : "+inFromServer.readUTF());
-              sentence = inFromUser.readLine(); 
+              System.out.println(inFromServer.readUTF());
+              sentence = inFromUser.readLine();  
 
               outToServer.writeUTF(sentence); 
 
