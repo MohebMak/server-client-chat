@@ -4,37 +4,35 @@ class client {
 
     public static void main(String argv[]) throws Exception 
     { 
-    	while(true)
-    	{
-        String sentence; 
-        String modifiedSentence; 
-
-        BufferedReader inFromUser = 
-          new BufferedReader(new InputStreamReader(System.in)); 
-
-        Socket clientSocket = new Socket("Dell", 6789); 
+    	
+    	InetAddress ipAddress = InetAddress.getByName("localhost");
+        Socket clientSocket = new Socket(ipAddress, 6789); 
 
         DataOutputStream outToServer = 
           new DataOutputStream(clientSocket.getOutputStream()); 
 
-        BufferedReader inFromServer = 
-                new BufferedReader(new
-                InputStreamReader(clientSocket.getInputStream())); 
+        DataInputStream inFromServer = 
+                new DataInputStream(clientSocket.getInputStream()); 
 
+
+        BufferedReader inFromUser = 
+          new BufferedReader(new InputStreamReader(System.in)); 
+    	while(true)
+    	{
+        String sentence; 
+
+              System.out.println("From server : "+inFromServer.readUTF());
               sentence = inFromUser.readLine(); 
 
-              outToServer.writeBytes(sentence + '\n'); 
+              outToServer.writeUTF(sentence); 
 
-              modifiedSentence = inFromServer.readLine(); 
 
-              System.out.println("FROM SERVER: " + modifiedSentence); 
-
-              System.out.println(modifiedSentence.equals("BYE"));
-
-              if(modifiedSentence.equals("BYE"))
+              if(sentence.equalsIgnoreCase("BYE"))
               {
             	 
               clientSocket.close(); 
+              inFromServer.close();
+              outToServer.close();
               break;
               }
     	}

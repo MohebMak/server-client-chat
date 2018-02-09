@@ -1,33 +1,42 @@
 import java.io.*; 
 import java.net.*; 
 
-class TCPServer { 
+class server { 
 
-  public static void main(String argv[]) throws Exception 
+	public static void main(String[] args) throws IOException 
     { 
       String clientSentence; 
-      String capitalizedSentence; 
 
       ServerSocket welcomeSocket = new ServerSocket(6789); 
   
       while(true) { 
   
-            Socket connectionSocket = welcomeSocket.accept(); 
+            Socket connectionSocket = null;
+            		try {
+            			connectionSocket = welcomeSocket.accept();
+            			System.out.println("new client is connected   :" +connectionSocket);
+            		
+            		
+            			 DataInputStream inFromClient = 
+            		              new DataInputStream(connectionSocket.getInputStream()); 
 
-           BufferedReader inFromClient = 
-              new BufferedReader(new
-              InputStreamReader(connectionSocket.getInputStream())); 
+            		           
+            		           DataOutputStream  outToClient = 
+            		                   new DataOutputStream(connectionSocket.getOutputStream()); 
 
-           
-           DataOutputStream  outToClient = 
-                   new DataOutputStream(connectionSocket.getOutputStream()); 
 
-                 clientSentence = inFromClient.readLine(); 
 
-                 capitalizedSentence = clientSentence.toUpperCase() + '\n'; 
+            		                  Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient);
+            		                  clienthandler.start();
+            		
+            		}
+            catch (Exception e) {
+				// TODO: handle exception
+            	connectionSocket.close();
+            	e.printStackTrace();
+			}
 
-                 outToClient.writeBytes(capitalizedSentence); 
-                 
+          
               } 
           } 
       } 
