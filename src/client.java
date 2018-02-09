@@ -29,9 +29,13 @@ class client {
 
               System.out.println("FROM SERVER: " + modifiedSentence); 
 
+              System.out.println(modifiedSentence.equals("BYE"));
+
               if(modifiedSentence.equals("BYE"))
               {
+            	 
               clientSocket.close(); 
+              break;
               }
     	}
     	
