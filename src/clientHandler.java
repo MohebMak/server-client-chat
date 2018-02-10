@@ -7,15 +7,15 @@ import java.net.*;
 
 
 
-public class clientHandler extends Thread 
+public class clientHandler extends Thread implements Runnable
 {
     
-    final DataInputStream inFromClient;
-    final DataOutputStream outToClient;
-    final Socket connectionSocket;
-    final Socket otherSocket;
-    final DataInputStream inFromClient1;
-    final DataOutputStream outToClient1;
+     DataInputStream inFromClient;
+     DataOutputStream outToClient;
+     Socket connectionSocket;
+     Socket otherSocket;
+     DataInputStream inFromClient1;
+     DataOutputStream outToClient1;
      
  
     // Constructor
@@ -34,21 +34,18 @@ public class clientHandler extends Thread
     public void run() 
     {
     	
-        
-        
-    
-        
         while (true) 
         {
             try {
  
-    
+    if(otherSocket!=null)
+    {
 	   String ll = inFromClient1.readUTF();
 	   outToClient.writeUTF(ll);
 	   String lll = inFromClient.readUTF();
 	   outToClient1.writeUTF(lll);
-
-       if(inFromClient.readUTF().equals("Exit")&&inFromClient1.readUTF().equals("Exit"))
+    }
+       if(inFromClient.readUTF().equals("bye")&&inFromClient1.readUTF().equals("bye"))
        { 
            System.out.println("Client " + this.connectionSocket + " sends exit...");
            System.out.println("Closing this connection.");
@@ -58,7 +55,6 @@ public class clientHandler extends Thread
            this.inFromClient1.close();
            this.outToClient1.close();
            System.out.println("Connection closed");
-           break;
        }
 }
                  

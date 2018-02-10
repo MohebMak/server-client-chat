@@ -7,8 +7,9 @@ class server {
 
 	public static void main(String[] args) throws IOException 
     { 
-      String clientSentence; 
 
+		Thread[] m = new Thread[99] ;
+		int count =0;
       ServerSocket welcomeSocket = new ServerSocket(6789); 
       HashMap<String, Socket> usersList = new HashMap<String, Socket>();
   
@@ -38,7 +39,11 @@ class server {
             		if(usersList.size()<2)
             		{
             			outToClient.writeUTF("none is online now");
-           			 Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient, null ,  null , null);
+           			 Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient, null,null,null);
+                     m[count]= clienthandler;
+                     count++;
+
+                     clienthandler.start();
 
             		}
             		else
@@ -63,19 +68,16 @@ class server {
 
               		           
               		           DataOutputStream  outToClient1 = 
-              		                   new DataOutputStream(usersList.get(othername).getOutputStream()); 
+           new DataOutputStream(usersList.get(othername).getOutputStream()); 
+              		           
             			 Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient, usersList.get(othername) ,  inFromClient1 , outToClient1);
-   	                  clienthandler.start();
+   	                 m[count]=clienthandler;
+   	                 count++;
+            			 clienthandler.start();
+   	                  continue;
 
             		}
-            		
-            		
-          
-            		
-
-	                  
-        		   
-            		
+         
             		}
             catch (Exception e) {
 				// TODO: handle exception

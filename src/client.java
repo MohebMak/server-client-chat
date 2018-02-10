@@ -15,12 +15,12 @@ class client {
                 new DataInputStream(clientSocket.getInputStream()); 
 
 
-        BufferedReader inFromUser = 
-          new BufferedReader(new InputStreamReader(System.in)); 
-    	while(true)
+            	while(true)
     	{
         String sentence; 
 
+        BufferedReader inFromUser = 
+          new BufferedReader(new InputStreamReader(System.in));
               System.out.println(inFromServer.readUTF());
               sentence = inFromUser.readLine();  
 
