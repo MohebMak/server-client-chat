@@ -14,43 +14,47 @@ class server {
   
       while(true) { 
   
-            Socket connectionSocket = null;
-            		try {
-            			connectionSocket = welcomeSocket.accept();
+          Socket connectionSocket = null;
+          		try {
+           			connectionSocket = welcomeSocket.accept();
             			
-            			 DataInputStream inFromClient = 
-           		              new DataInputStream(connectionSocket.getInputStream()); 
+           			 DataInputStream inFromClient = 
+        		     new DataInputStream(connectionSocket.getInputStream()); 
 
            		           
-           		           DataOutputStream  outToClient = 
-           		                   new DataOutputStream(connectionSocket.getOutputStream()); 
+                     DataOutputStream  outToClient = 
+                     new DataOutputStream(connectionSocket.getOutputStream()); 
 
-            			System.out.println("new client is connected   :" + connectionSocket);
+           			System.out.println("new client is connected   :" + connectionSocket);
             			
-            		    outToClient.writeUTF("Please enter your name .");
+           		    outToClient.writeUTF("Please enter your name .");
             		    
-            		    String clientName = inFromClient.readUTF();
-               	     System.out.println("user list item "+clientName + "   " + connectionSocket);
+           		    String clientName = inFromClient.readUTF();
 
-            		    usersList.put(clientName, connectionSocket);
+          		    usersList.put(clientName, connectionSocket);
             	   
             		System.out.println(usersList.toString());
+            		
             		if(usersList.size()<2)
             		{
-            			outToClient.writeUTF("ma3lesh mafish 7ad online");
+            			outToClient.writeUTF("none is online now");
+           			 Thread clienthandler = new clientHandler(connectionSocket , inFromClient , outToClient, null ,  null , null);
+
             		}
             		else
             		{
-//            			outToClient.writeUTF("dol el shabab el online");
-            			Set<String>clients = usersList.keySet();
-            			String k = "";
+            			String k = "online users:"+"\n";
+            		      HashMap<String, Socket> usersList1 = usersList;
+            		      usersList1.remove(clientName);
+              			Set<String>clients = usersList.keySet();
+
             			for(String s: clients)
 
         
             			{
-     			k   =    k+"     "+s;
+     			k   =    k+"\n"+s;
             			}
-            			outToClient.writeUTF(k + "/n" + "please enter the name you want to chat with");
+            			outToClient.writeUTF(k + "\n" + "please enter the name you want to chat with");
             			
              			 String othername = inFromClient.readUTF();
 

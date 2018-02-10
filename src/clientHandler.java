@@ -42,25 +42,28 @@ public class clientHandler extends Thread
         {
             try {
  
-                // Ask user what he wants
-                outToClient.writeUTF(inFromClient1.readUTF());
-                outToClient1.writeUTF(inFromClient.readUTF());
+    
+	   String ll = inFromClient1.readUTF();
+	   outToClient.writeUTF(ll);
+	   String lll = inFromClient.readUTF();
+	   outToClient1.writeUTF(lll);
 
-                if(inFromClient.readUTF().equals("Exit"))
-                { 
-                    System.out.println("Client " + this.connectionSocket + " sends exit...");
-                    System.out.println("Closing this connection.");
-                    this.connectionSocket.close();
-                    this.inFromClient.close();
-                    this.outToClient.close();
-                    this.inFromClient1.close();
-                    this.outToClient1.close();
-                    System.out.println("Connection closed");
-                    break;
-                }
+       if(inFromClient.readUTF().equals("Exit")&&inFromClient1.readUTF().equals("Exit"))
+       { 
+           System.out.println("Client " + this.connectionSocket + " sends exit...");
+           System.out.println("Closing this connection.");
+           this.connectionSocket.close();
+           this.inFromClient.close();
+           this.outToClient.close();
+           this.inFromClient1.close();
+           this.outToClient1.close();
+           System.out.println("Connection closed");
+           break;
+       }
+}
                  
                 
-            } catch (IOException e) {
+             catch (IOException e) {
                 e.printStackTrace();
             }
         }
